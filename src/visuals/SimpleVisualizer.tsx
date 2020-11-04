@@ -23,6 +23,7 @@ const Visualizer = () => {
       dummy.position.set(x, y, z);
 
       // dummy.scale.set()
+
       // todo: pass opacity to the shader?
       dummy.updateMatrix();
 
