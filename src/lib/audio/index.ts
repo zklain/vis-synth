@@ -1,17 +1,18 @@
 // import { create } from 'zustand';
 
+import create from 'zustand';
 import { FFT_SIZE } from '../../consts';
 
-// const audioState = create((set) => ({
-//   ctx: null,
-//   analyzer:
-//   initContext: () => set(state => (
-//     const ctx =
-//     return {...state, ctx}
-//     ))
-// }));
+export type AudioState = {
+  ctx: AudioContext | null;
+  analyser: AnalyserNode | null;
+  playing: boolean;
+  tempo: number;
+  data: Uint8Array;
+  initAudio: () => Promise<void>;
+  analyzeFq: () => void;
+};
 
-// todo: add to state
 export const setupAudioContext = async () => {
   window.AudioContext =
     //@ts-ignore
@@ -37,8 +38,29 @@ export const setupAudioContext = async () => {
   // connect to output
   source.connect(ctx.destination);
 
-  return { ctx, analyzer: analyser };
+  return { ctx, analyser };
 };
 
+export const useAudio = create<AudioState>((set, get) => ({
+  ctx: null,
+  analyser: null,
+  playing: false,
+  tempo: 100,
+  data: new Uint8Array(0),
+  initAudio: async () => {
+    const { ctx, analyser } = await setupAudioContext();
+    const data = new Uint8Array(analyser.frequencyBinCount);
+    const tempo = 100;
+    set((state) => ({ ctx, analyser, data, playing: true, tempo }));
+  },
+  analyzeFq: () => {
+    const analyser = get().analyser;
+    const data = get().data;
+    if (!analyser) return;
+    analyser.getByteFrequencyData(data);
+    set((state) => ({ ...state, data }));
+  },
+}));
+// todo: audio controls from here?
 // todo: create playback
 // todo: take sound created from oscilator as a context

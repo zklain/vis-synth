@@ -1,10 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PointerLockControls } from '@react-three/drei';
 import Piedestal from './Piedestal';
 import Player from './Player';
 import { Psychedelic, SimpleVisualizer } from '../visuals';
+import { useAudio } from '../lib/audio';
+import { useFrame } from 'react-three-fiber';
 
 const ShowRoom = () => {
+  const initAudio = useAudio((state) => state.initAudio);
+  const analyzeFq = useAudio((state) => state.analyzeFq);
+
+  useEffect(() => {
+    initAudio();
+  }, []);
+  useFrame(() => {
+    analyzeFq();
+  });
+
   return (
     <group>
       <ambientLight intensity={0.3} />

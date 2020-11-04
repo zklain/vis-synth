@@ -1,35 +1,20 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useMemo, useRef } from 'react';
 import { useFrame } from 'react-three-fiber';
 import * as THREE from 'three';
 import { FFT_SIZE } from '../consts';
-import { setupAudioContext } from '../lib/audio';
+import { useAudio } from '../lib/audio';
 
 const PARTICLES_COUNT = FFT_SIZE / 2;
 
 const Visualizer = () => {
-  const analyser = useRef<AnalyserNode>();
+  const data = useAudio((state) => state.data);
 
   const meshRef = useRef();
 
   const dummy = useMemo(() => new THREE.Object3D(), []);
 
-  useEffect(() => {
-    (async () => {
-      const { ctx, analyzer } = await setupAudioContext();
-      analyser.current = analyzer;
-    })();
-  }, []);
-
   useFrame(() => {
-    if (!analyser.current) {
-      return;
-    }
-
-    // should data be in the components state?
-    let data = new Uint8Array(analyser.current.frequencyBinCount);
-    // todo: only set new position if playing
-    // todo: find the lowest and highest note in the whole song and create particles accordingly
-    analyser.current.getByteFrequencyData(data);
+    if (!data.length) return;
 
     data.forEach((frequencyVol, i) => {
       const x = -64 + i / 2;
@@ -38,7 +23,6 @@ const Visualizer = () => {
       dummy.position.set(x, y, z);
 
       // dummy.scale.set()
-
       // todo: pass opacity to the shader?
       dummy.updateMatrix();
 

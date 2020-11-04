@@ -18,4 +18,9 @@ function App() {
   );
 }
 
+// todo: tempo
+// todo: circular
+// todo: video input plus controls
+// todo: stacking
+
 export default App;
