@@ -9,3 +9,10 @@ body {
   height: 100vh;
   background-color: black;
 }
+
+#audio-source-holder {
+  position: fixed;
+  bottom: 3rem;
+  z-index: 100;
+  width: 100%;
+}
