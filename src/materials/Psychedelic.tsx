@@ -29,7 +29,6 @@ const PsychedelicMaterial = shaderMaterial(
   glsl`
     uniform float time;
     uniform vec3 color;
-    varying vec2 vUv;
     varying vec3 vPos;
     
     void main() {

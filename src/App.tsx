@@ -18,10 +18,20 @@ function App() {
   );
 }
 
+// todo: height reflecting
+// todo: RGB Shift
+// todo: kaleidoscope
 // todo: tempo
 // todo: circular
 // todo: tunnel
+// todo: organic structure, growing on beat?
+// todo: Head with wire
 // todo: video input plus controls
+// todo: scrolling between scenes
 // todo: stacking
+// todo: The New Pope cross
+// todo: flashlight with spotLight
+
+// todo: try connecting spotify/bandcamp/soundcloud?
 
 export default App;
