@@ -1,23 +1,27 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PointerLockControls } from '@react-three/drei';
-import Piedestal from './Piedestal';
 import Player from './Player';
 import { CirclePit, Psychedelic, SimpleVisualizer } from '../visuals';
 import { useAudio } from '../lib/audio';
 import { useFrame } from 'react-three-fiber';
-import { Bar } from '../visuals/FrequencyCircular';
-import WireframePlane from '../visuals/WireframePlane';
+import Bar from '../components/Bar';
 import WireframeGround from './Ground';
 
 const ShowRoom = () => {
   const initAudio = useAudio((state) => state.initAudio);
   const analyzeFq = useAudio((state) => state.analyzeFq);
 
+  const [scale, setScale] = useState(1);
+  const [time, setTime] = useState(1.0);
+
   useEffect(() => {
     initAudio();
   }, []);
-  useFrame(() => {
+
+  useFrame((state, delta) => {
     analyzeFq();
+    setTime(time + delta);
+    // setScale();
   });
 
   return (
@@ -27,11 +31,15 @@ const ShowRoom = () => {
       {/* <Piedestal /> */}
       <WireframeGround />
       <CirclePit />
-      <Bar position={[3, 0, 3]} args={[1, 3, 1]} />
-      <Bar position={[5, 0, 3]} args={[1, 10, 1]} />
+      <Bar position={[3, 0, 3]} args={[1, 3, 1]} scale={Math.sin(time + 5)} />
+      <Bar
+        scale={Math.cos(time) + 0.1}
+        position={[5, 0, 3]}
+        args={[1, 10, 1]}
+      />
       <Player />
       <PointerLockControls />
-      <SimpleVisualizer />
+      {/* <SimpleVisualizer /> */}
     </group>
   );
 };

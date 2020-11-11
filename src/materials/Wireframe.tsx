@@ -26,7 +26,7 @@ const WireframeMaterial = shaderMaterial(
     uniform float density;
 
     void main() {
-      if (fract(vUv.x * density) < 0.02 || fract(vUv.y * density) < 0.02) {
+      if (fract(vUv.x * density) < 0.01 || fract(vUv.y * density) < 0.01) {
         gl_FragColor = vec4(color, 1.0);
       } else {
         gl_FragColor = vec4(bgColor, 1.0);

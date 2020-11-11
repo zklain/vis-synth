@@ -1,3 +1,4 @@
+import { ThreeVector3, ThreeRotation, ThreeArgs } from './three.d';
 export type ThreeVector3 =
   | Vector3
   | [x: number, y: number, z: number]
@@ -16,3 +17,10 @@ export type ThreeArgs =
       (number | undefined)?
     ]
   | undefined;
+
+export interface ThreeProps {
+  position?: ThreeVector3;
+  rotation?: ThreeRotation;
+  args?: ThreeArgs;
+  color?: any;
+}
