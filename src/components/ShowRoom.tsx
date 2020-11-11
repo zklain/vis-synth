@@ -6,6 +6,7 @@ import { useAudio } from '../lib/audio';
 import { useFrame } from 'react-three-fiber';
 import Bar from '../components/Bar';
 import WireframeGround from './Ground';
+import Video from '../visuals/Video';
 
 const ShowRoom = () => {
   const initAudio = useAudio((state) => state.initAudio);
@@ -28,15 +29,16 @@ const ShowRoom = () => {
     <group>
       <ambientLight intensity={0.3} position={[0, 100, 0]} />
       <pointLight color='#ffffff' intensity={40} position={[0, 100, 0]} />
+      <Video />
       {/* <Piedestal /> */}
       <WireframeGround />
-      <CirclePit />
-      <Bar position={[3, 0, 3]} args={[1, 3, 1]} scale={Math.sin(time + 5)} />
+      {/* <CirclePit /> */}
+      {/* <Bar position={[3, 0, 3]} args={[1, 3, 1]} scale={Math.sin(time + 5)} />
       <Bar
         scale={Math.cos(time) + 0.1}
         position={[5, 0, 3]}
         args={[1, 10, 1]}
-      />
+      /> */}
       <Player />
       <PointerLockControls />
       {/* <SimpleVisualizer /> */}

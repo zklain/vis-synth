@@ -172,5 +172,5 @@ const FrequencyCircular = () => {
 };
 
 // ! todo: try instantiating the objects or use array of positions
-
+// todo: instancedMesh.setPositionAt() https://medium.com/@pailhead011/instancing-with-three-js-part-3-a3fe15bcee3a
 export default FrequencyCircular;
