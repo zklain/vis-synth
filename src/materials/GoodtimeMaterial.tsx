@@ -30,21 +30,26 @@ const GoodtimeMaterial = shaderMaterial(
     uniform float time;
     uniform vec3 color;
     varying vec3 vPos;
+    float tempo = 5.0;
+
     
     void main() {
 
       // todo: R -> G -> B
+      // todo: never go black
+      // todo: light on beat
 
-      float opacityR = sin(time);
-      float opacityG = cos(time);
-      float opacityB = sin(time + 3.14);
+
+      float opacityR = cos(3.14 + time * tempo * 0.1) ;
+      float opacityG = cos(- 3.14 + time * tempo * 0.1);
+      float opacityB = sin(time * tempo * 0.1);
 
 
       float r = opacityR;
       float g = opacityG;
       float b = opacityB;
       vec3 rgb = vec3(r, g, b);
-      gl_FragColor.rgba = vec4(2.4, 0.01, 0.01, 1.0);
+      gl_FragColor.rgba = vec4(cos(time * 5.0 + 5.0) + 1.0, 1.0, 1.0, 1.0);
     }
   `
 );
