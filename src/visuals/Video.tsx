@@ -1,6 +1,18 @@
 import { Box, Plane, useAspect } from '@react-three/drei';
-import React, { useEffect, useState } from 'react';
-import '../materials/GlitchMaterial';
+import React, { useEffect, useRef, useState } from 'react';
+import { useFrame, useThree } from 'react-three-fiber';
+import '../materials/ChromaticAbberation';
+import {
+  EffectComposer,
+  DepthOfField,
+  Bloom,
+  Noise,
+  Vignette,
+  Glitch,
+  Pixelation,
+  ChromaticAberration,
+} from '@react-three/postprocessing';
+import { Vector2 } from 'three';
 
 const videoConstraints = {
   video: {
@@ -25,8 +37,11 @@ const startCamera = async () => {
 };
 
 const Video = () => {
-  const [x, y] = useAspect('cover', 1800, 1000);
+  const [x, y] = useAspect('cover', 1920, 1680);
   const [video, setVideo] = useState<HTMLVideoElement>();
+  const ref = useRef();
+
+  const [offset, setOffset] = useState<Vector2>(new Vector2(0.1, 0.2));
 
   useEffect(() => {
     (async () => {
@@ -43,14 +58,37 @@ const Video = () => {
     })();
   }, []);
 
+  useFrame((state, delta) => {
+    if (ref.current) {
+      //@ts-ignore
+      ref.current.material.time += delta;
+    }
+  });
+
   return video ? (
-    <Plane args={[100, 100]} position={[0, 0, -20]} rotation={[0, 0, 0]}>
-      {/* @ts-ignore */}
-      <glitchMaterial color='hotpink' map={video}>
-        <videoTexture attach='map' args={[video]} />
+    <EffectComposer>
+      <ChromaticAberration offset={new Vector2(0.01, 0.002)} />
+      <Glitch strength={new Vector2(0.3, 1.0)} />
+      {/* <Noise /> */}
+      <Plane
+        args={[10, 10]}
+        ref={ref}
+        scale={[x, y, 1]}
+        position={[0, 0, -15]}
+        rotation={[0, 0, 0]}>
+        {/* <meshBasicMaterial> */}
         {/* @ts-ignore */}
-      </glitchMaterial>
-    </Plane>
+        <chromaticAbberation attach='material' map={video}>
+          <videoTexture attach='map' args={[video]} />
+          {/* @ts-ignore */}
+        </chromaticAbberation>
+        {/* </meshBasicMaterial> */}
+      </Plane>
+
+      <Box position={[1, 3, -10]} args={[]}>
+        <meshStandardMaterial color='hotpink' />
+      </Box>
+    </EffectComposer>
   ) : (
     <Box />
   );

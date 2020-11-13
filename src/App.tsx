@@ -13,7 +13,7 @@ function App() {
           <ShowRoom />
         </Physics>
       </Canvas>
-      <AudioSource />
+      {/* <AudioSource /> */}
     </div>
   );
 }

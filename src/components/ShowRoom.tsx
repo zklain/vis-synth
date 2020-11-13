@@ -7,6 +7,7 @@ import { useFrame } from 'react-three-fiber';
 import Bar from '../components/Bar';
 import WireframeGround from './Ground';
 import Video from '../visuals/Video';
+import GoodtimeGal from '../spaces/GoodtimeGal';
 
 const ShowRoom = () => {
   const initAudio = useAudio((state) => state.initAudio);
@@ -16,11 +17,11 @@ const ShowRoom = () => {
   const [time, setTime] = useState(1.0);
 
   useEffect(() => {
-    initAudio();
+    // initAudio();
   }, []);
 
   useFrame((state, delta) => {
-    analyzeFq();
+    // analyzeFq();
     setTime(time + delta);
     // setScale();
   });
@@ -29,9 +30,10 @@ const ShowRoom = () => {
     <group>
       <ambientLight intensity={0.3} position={[0, 100, 0]} />
       <pointLight color='#ffffff' intensity={40} position={[0, 100, 0]} />
-      <Video />
+      {/* <Video /> */}
+      <GoodtimeGal time={time} />
       {/* <Piedestal /> */}
-      <WireframeGround />
+      {/* <WireframeGround /> */}
       {/* <CirclePit /> */}
       {/* <Bar position={[3, 0, 3]} args={[1, 3, 1]} scale={Math.sin(time + 5)} />
       <Bar
